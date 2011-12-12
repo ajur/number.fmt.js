@@ -2,8 +2,14 @@
 <html>
 <head>
   <title>number.fmt.js tests</title>
-  <scirpt src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
   <script src="number.fmt.js"></script>
+  <style>
+  table { border-collapse: collapse; }
+  td { border: 1px solid #999; padding: 0.5em 1em; }
+  td.ok { background-color: #afa; }
+  td.err { background-color: #faa; }
+  </style>
   <script>
 jQuery(function($){
     var $tt = $('#tt'),
@@ -12,7 +18,7 @@ jQuery(function($){
                 num = args.shift(),
                 tst = args.pop(),
                 str = Number.prototype.fmt.apply(num,args);
-            $tt.append(['<tr class="',(str===tst?'ok':'err'),'"><td>',tst,'</td><td>',str,'</td></tr>'].join(''));
+            $tt.append(['<tr><td>',tst,'</td><td class="',(str===tst?'ok':'err'),'">',str,'</td></tr>'].join(''));
         };
     
     test(12323435346.236345, "12 323 435 346");
@@ -20,7 +26,7 @@ jQuery(function($){
     test(-12323435346.236345, 2, "-12 323 435 346.24");
     test(12323435346.236345, 3, 'PLN', ', ', '.', "12.323.435.346, 236 PLN");
     test(123234353462363453, 0, '', '.', ' ', 4, "12 3234 3534 6236 3460");
-    test(12323435), 4, "12 323 435.0000");
+    test(12323435, 4, "12 323 435.0000");
     test(NaN, "NaN");
     test(Infinity, "Infinity");
     test(0.123, "0");
@@ -32,7 +38,9 @@ jQuery(function($){
 </head>
 <body>
   <table>
-    <thead></thead>
+    <thead>
+    <tr><td>Expected</td><td>Evaluated</td></tr>
+    </thead>
     <tbody id="tt"></tbody>
   </table>
 </body>
