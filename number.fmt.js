@@ -19,30 +19,35 @@ Number.prototype.fmt = function(dec, curr, pnt, sep, sepn){
         sn = ''+Math.round(Math.abs(this) * Math.pow(10,dec)), //stringify rounded number
         snd,i,v=[]; //output array
     
-    console.log('\nnum ', this.toString(), ' dec ', dec);
-
-    console.log('sn ',sn);
-    
+    //add leading zeros for factorials
     for(i = sn.length-dec; i<=0; ++i){
         sn = '0'+sn;
     }
     
+    //split
     snd = sn.slice(sn.length-dec); //fractional part
     sn = sn.slice(0,sn.length-dec); //integral part
     
-    console.log('sn ',sn, ' snd ',snd);
-    
+    //separate integral part with thousands sep
     for(i=sn.length%sepn ; i<sn.length ; i+=sepn){
         v.push(sep,sn.slice(i,i+sepn));
     }
     if(sn.length%sepn>0) v.unshift(sn.slice(0,sn.length%sepn));
     else v.shift();
+
+    //add sign 
     if(this<0) v.unshift('-');
+
+    //add factorial part, if needed
     if(dec>0){
         v.push(pnt,snd);
     }
+
+    //add currency if needed
     if(curr.length>0){
         v.push(' ',curr);
     }
+
+    //stringify and return
     return v.join('');
 };
