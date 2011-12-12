@@ -7,6 +7,7 @@
   <style>
   table { border-collapse: collapse; }
   td { border: 1px solid #999; padding: 0.5em 1em; }
+  td.hl { background-color: #ffa; }
   td.ok { background-color: #afa; }
   td.err { background-color: #faa; }
   </style>
@@ -18,7 +19,9 @@ jQuery(function($){
                 num = args.shift(),
                 tst = args.pop(),
                 str = Number.prototype.fmt.apply(num,args);
-            $tt.append(['<tr><td>',tst,'</td><td class="',(str===tst?'ok':'err'),'">',str,'</td></tr>'].join(''));
+            $tt.append(['<tr><td>',num.toString(),'</td><td>',args.toString(),'</td><td class="hl">',tst,
+                        '</td><td class="',(str===tst?'ok':'err'),'">',str,'</td></tr>'
+                       ].join(''));
         };
     
     test(12323435346.236345, "12 323 435 346");
@@ -30,16 +33,18 @@ jQuery(function($){
     test(NaN, "NaN");
     test(Infinity, "Infinity");
     test(0.123, "0");
-    test(0.123, 3, "0.123");
+    test(0.123, 4, "0.1230");
     test(0.0123, 4, "0.0123");
-    test(0, 2, "0.00");
+    test(0.00123, 4, "0.0012");
+    test(-0.00123, 4, "-0.0012");
+    test(0, 4, "0.0000");
 });
   </script>
 </head>
 <body>
   <table>
     <thead>
-    <tr><td>Expected</td><td>Evaluated</td></tr>
+        <tr><td>Number</td><td>Arguments</td><td>Expected</td><td>Evaluated</td></tr>
     </thead>
     <tbody id="tt"></tbody>
   </table>
